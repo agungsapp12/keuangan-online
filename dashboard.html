@@ -2,113 +2,205 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Dashboard Keuangan</title>
 
 <style>
-body {
-  font-family: Arial, sans-serif;
-  background: #f4f6f8;
-  margin: 0;
+* {
+  box-sizing: border-box;
 }
 
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f4f6f8;
+  color: #333;
+}
+
+/* ===== HEADER ===== */
 .header {
-  background: #2c3e50;
+  background: linear-gradient(90deg, #2c3e50, #34495e);
   color: #fff;
-  padding: 15px 30px;
+  padding: 16px 20px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
 }
 
-.header a {
+.header h1 {
+  font-size: 18px;
+  margin: 0;
+}
+
+.nav a {
   color: #fff;
   text-decoration: none;
-  margin-left: 20px;
+  margin-left: 15px;
   font-weight: bold;
 }
 
+/* ===== CONTAINER ===== */
 .container {
   width: 95%;
-  max-width: 1000px;
-  margin: 30px auto;
+  max-width: 1100px;
+  margin: 25px auto;
 }
 
+/* ===== CARD ===== */
 .card {
   background: #fff;
+  border-radius: 14px;
   padding: 20px;
-  border-radius: 10px;
   margin-bottom: 20px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+}
+
+/* ===== FILTER ===== */
+.filter {
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+select {
+  padding: 10px;
+  font-size: 15px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+/* ===== SUMMARY ===== */
+.summary {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 15px;
+}
+
+.summary-box {
+  background: linear-gradient(135deg, #27ae60, #2ecc71);
+  color: #fff;
+  padding: 20px;
+  border-radius: 14px;
+}
+
+.summary-box h3 {
+  margin: 0;
+  font-size: 14px;
+  opacity: 0.9;
+}
+
+.summary-box h2 {
+  margin: 8px 0 0;
+  font-size: 26px;
+}
+
+/* ===== TABLE ===== */
+.table-wrapper {
+  overflow-x: auto;
 }
 
 table {
   width: 100%;
   border-collapse: collapse;
+  min-width: 600px;
 }
 
 th, td {
-  padding: 10px;
-  border-bottom: 1px solid #ddd;
+  padding: 12px 10px;
+  border-bottom: 1px solid #e0e0e0;
   text-align: left;
+  font-size: 14px;
 }
 
 th {
   background: #3498db;
   color: #fff;
+  position: sticky;
+  top: 0;
 }
 
-.total {
-  font-size: 26px;
-  color: #27ae60;
+tbody tr:hover {
+  background: #f2f7ff;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 600px) {
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .nav {
+    margin-top: 10px;
+  }
+
+  table {
+    font-size: 13px;
+  }
 }
 </style>
 </head>
 
 <body>
 
+<!-- ===== HEADER ===== -->
 <div class="header">
-  <div>📊 Dashboard Keuangan</div>
-  <div>
+  <h1>📊 Dashboard Keuangan</h1>
+  <div class="nav">
     <a href="index.html">Input</a>
     <a href="dashboard.html">Dashboard</a>
   </div>
 </div>
 
+<!-- ===== CONTENT ===== -->
 <div class="container">
 
-<div class="card">
-<label>Pilih Nama:</label>
-<select id="nama" onchange="loadData()">
-  <option value="Agung">Agung</option>
-  <option value="Febby">Febby</option>
-</select>
-</div>
+  <!-- FILTER -->
+  <div class="card">
+    <div class="filter">
+      <strong>Pilih Nama:</strong>
+      <select id="nama" onchange="loadData()">
+        <option value="Agung">Agung</option>
+        <option value="Febby">Febby</option>
+      </select>
+    </div>
+  </div>
 
-<div class="card">
-<h3>Total Pengeluaran</h3>
-<div class="total" id="total">Rp 0</div>
-</div>
+  <!-- SUMMARY -->
+  <div class="summary">
+    <div class="summary-box">
+      <h3>Total Pengeluaran</h3>
+      <h2 id="total">Rp 0</h2>
+    </div>
+  </div>
 
-<div class="card">
-<h3>Data Pengeluaran</h3>
-<table>
-<thead>
-<tr>
-  <th>Tanggal</th>
-  <th>Kategori</th>
-  <th>Keterangan</th>
-  <th>Jumlah</th>
-</tr>
-</thead>
-<tbody id="tbody"></tbody>
-</table>
-</div>
+  <!-- TABLE -->
+  <div class="card">
+    <h3>Riwayat Pengeluaran</h3>
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>Tanggal</th>
+            <th>Kategori</th>
+            <th>Keterangan</th>
+            <th>Jumlah</th>
+          </tr>
+        </thead>
+        <tbody id="tbody"></tbody>
+      </table>
+    </div>
+  </div>
 
 </div>
 
 <script>
-// ✅ ID GOOGLE SHEETS KAMU
+// ===== KONFIGURASI =====
 const SHEET_ID = "19K7Bjz9K5N4syqAQHH21Say8X4KcC0xLGUc-b6YFCws";
 
+// ===== LOAD DATA =====
 function loadData() {
   const nama = document.getElementById("nama").value;
   const url =
@@ -132,20 +224,22 @@ function loadData() {
         total += jumlah;
 
         html += `
-        <tr>
-          <td>${tanggal}</td>
-          <td>${kategori}</td>
-          <td>${ket}</td>
-          <td>Rp ${jumlah.toLocaleString()}</td>
-        </tr>`;
+          <tr>
+            <td>${tanggal}</td>
+            <td>${kategori}</td>
+            <td>${ket}</td>
+            <td>Rp ${jumlah.toLocaleString()}</td>
+          </tr>
+        `;
       });
 
-      tbody.innerHTML = html;
-      totalEl = document.getElementById("total");
-      totalEl.innerText = "Rp " + total.toLocaleString();
+      document.getElementById("tbody").innerHTML = html;
+      document.getElementById("total").innerText =
+        "Rp " + total.toLocaleString();
     });
 }
 
+// Load awal
 loadData();
 </script>
 
