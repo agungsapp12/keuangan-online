@@ -119,6 +119,62 @@ button:hover { background: #15803d; }
   text-align: center;
   font-weight: 600;
 }
+
+/* ===== METODE PEMBAYARAN ===== */
+.qr-box {
+  margin-top: 26px;
+  padding: 18px;
+  border-radius: 14px;
+  background: #f9fafb;
+  border: 1px dashed #cbd5e1;
+}
+
+.qr-box h3 {
+  text-align: center;
+  margin-bottom: 14px;
+  font-size: 15px;
+}
+
+.payment-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px;
+  border-radius: 10px;
+  background: #ffffff;
+  box-shadow: 0 3px 8px rgba(0,0,0,.04);
+  margin-bottom: 10px;
+}
+
+.payment-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 600;
+}
+
+.payment-left i {
+  font-size: 20px;
+  color: #2563eb;
+}
+
+.payment-right {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.payment-right a {
+  text-decoration: none;
+  background: #2563eb;
+  color: #fff;
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 13px;
+}
+
+.payment-right a:hover {
+  background: #1e40af;
+}
 </style>
 </head>
 
@@ -172,6 +228,34 @@ button:hover { background: #15803d; }
   </button>
 
   <div id="msg"></div>
+
+  <!-- ===== METODE PEMBAYARAN ===== -->
+  <div class="qr-box">
+    <h3><i class="fa-solid fa-credit-card"></i> Metode Pembayaran</h3>
+
+    <div class="payment-item">
+      <div class="payment-left">
+        <i class="fa-solid fa-building-columns"></i>
+        SeaBank
+      </div>
+      <div class="payment-right">
+        901234567890
+      </div>
+    </div>
+
+    <div class="payment-item">
+      <div class="payment-left">
+        <i class="fa-solid fa-wallet"></i>
+        DANA
+      </div>
+      <div class="payment-right">
+        <a href="https://link.dana.id/minta?full_url=https://qr.dana.id/v1/281012012021061906525923" target="_blank">
+          Buka QR
+        </a>
+      </div>
+    </div>
+  </div>
+
 </div>
 
 <script>
