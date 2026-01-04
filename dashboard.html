@@ -201,7 +201,7 @@ th {
 
     <select id="filterTahun"></select>
 
-    <button onclick="loadData()">Terapkan</button>
+    <button onclick="loadAll()">Terapkan</button>
   </div>
 
   <!-- TOTAL -->
@@ -212,7 +212,7 @@ th {
     </div>
 
     <div class="card">
-      <div>Total Menabung</div>
+      <div>Total Menabung (Agung + Febby)</div>
       <div class="total-green" id="totalMenabung">Rp 0</div>
     </div>
   </div>
@@ -239,14 +239,14 @@ th {
 
 <script>
 const SHEET_ID = "19K7Bjz9K5N4syqAQHH21Say8X4KcC0xLGUc-b6YFCws";
-
-const filterNama = document.getElementById("filterNama");
-const filterBulan = document.getElementById("filterBulan");
-const filterTahun = document.getElementById("filterTahun");
 const tbody = document.getElementById("tbody");
 
 const totalOut = document.getElementById("totalPengeluaran");
 const totalSave = document.getElementById("totalMenabung");
+
+const filterNama = document.getElementById("filterNama");
+const filterBulan = document.getElementById("filterBulan");
+const filterTahun = document.getElementById("filterTahun");
 
 const now = new Date().getFullYear();
 for (let y = now; y >= now - 5; y--) {
@@ -258,48 +258,62 @@ function parseGoogleDate(v) {
   return m ? new Date(m[1], m[2], m[3]) : null;
 }
 
-function loadData() {
+function fetchSheet(sheet) {
+  return fetch(`https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=${sheet}`)
+    .then(res => res.text())
+    .then(txt => JSON.parse(txt.substring(47).slice(0, -2)));
+}
+
+async function loadAll() {
   let pengeluaran = 0;
   let menabung = 0;
   let html = "";
 
-  fetch(`https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=${filterNama.value}`)
-    .then(res => res.text())
-    .then(txt => {
-      const json = JSON.parse(txt.substring(47).slice(0, -2));
+  /* ===== TABEL & PENGELUARAN (SESUI FILTER NAMA) ===== */
+  const data = await fetchSheet(filterNama.value);
 
-      json.table.rows.forEach(r => {
-        if (!r.c[2]?.v) return;
+  data.table.rows.forEach(r => {
+    if (!r.c[2]?.v) return;
+    const tgl = parseGoogleDate(r.c[2].v);
+    if (!tgl) return;
 
-        const tgl = parseGoogleDate(r.c[2].v);
-        if (!tgl) return;
+    if (filterBulan.value !== "" && tgl.getMonth() != filterBulan.value) return;
+    if (filterTahun.value && tgl.getFullYear() != filterTahun.value) return;
 
-        if (filterBulan.value !== "" && tgl.getMonth() != filterBulan.value) return;
-        if (filterTahun.value && tgl.getFullYear() != filterTahun.value) return;
+    const kategori = r.c[3]?.v || "";
+    const ket = r.c[4]?.v || "-";
+    const jumlah = Number(r.c[5]?.v || 0);
 
-        const kategori = r.c[3]?.v || "";
-        const ket = r.c[4]?.v || "-";
-        const jumlah = Number(r.c[5]?.v || 0);
+    if (kategori !== "Menabung") pengeluaran += jumlah;
 
-        if (kategori === "Menabung") menabung += jumlah;
-        else pengeluaran += jumlah;
+    html += `
+      <tr>
+        <td>${tgl.toLocaleDateString("id-ID")}</td>
+        <td>${kategori}</td>
+        <td>${ket}</td>
+        <td class="text-right">Rp ${jumlah.toLocaleString("id-ID")}</td>
+      </tr>`;
+  });
 
-        html += `
-        <tr>
-          <td>${tgl.toLocaleDateString("id-ID")}</td>
-          <td>${kategori}</td>
-          <td>${ket}</td>
-          <td class="text-right">Rp ${jumlah.toLocaleString("id-ID")}</td>
-        </tr>`;
-      });
+  tbody.innerHTML = html;
+  totalOut.innerText = "Rp " + pengeluaran.toLocaleString("id-ID");
 
-      tbody.innerHTML = html;
-      totalOut.innerText = "Rp " + pengeluaran.toLocaleString("id-ID");
-      totalSave.innerText = "Rp " + menabung.toLocaleString("id-ID");
+  /* ===== TOTAL MENABUNG (GABUNGAN AGUNG + FEBBY) ===== */
+  const sheets = ["Agung", "Febby"];
+
+  for (const s of sheets) {
+    const d = await fetchSheet(s);
+    d.table.rows.forEach(r => {
+      if (r.c[3]?.v === "Menabung") {
+        menabung += Number(r.c[5]?.v || 0);
+      }
     });
+  }
+
+  totalSave.innerText = "Rp " + menabung.toLocaleString("id-ID");
 }
 
-loadData();
+loadAll();
 </script>
 
 </body>
