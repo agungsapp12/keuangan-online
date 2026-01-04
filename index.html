@@ -2,55 +2,72 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Input Pengeluaran</title>
 
 <style>
+* {
+  box-sizing: border-box;
+}
+
 body {
   font-family: Arial, sans-serif;
   background: #f4f6f8;
   margin: 0;
 }
 
+/* ===== HEADER ===== */
 .header {
   background: #2c3e50;
   color: #fff;
-  padding: 15px 30px;
+  padding: 15px 20px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
 }
 
-.header a {
+.header h1 {
+  font-size: 18px;
+  margin: 0;
+}
+
+.nav a {
   color: #fff;
   text-decoration: none;
-  margin-left: 20px;
+  margin-left: 15px;
   font-weight: bold;
 }
 
+/* ===== CARD ===== */
 .card {
-  width: 420px;
-  margin: 40px auto;
+  max-width: 420px;
+  width: 95%;
+  margin: 30px auto;
   background: #fff;
-  padding: 25px;
-  border-radius: 10px;
+  padding: 20px;
+  border-radius: 12px;
 }
 
-h2 {
+.card h2 {
   text-align: center;
+  margin-bottom: 15px;
 }
 
+/* ===== FORM ===== */
 input, select, button {
   width: 100%;
-  padding: 10px;
+  padding: 12px;
   margin: 8px 0;
+  font-size: 16px;
 }
 
 button {
   background: #27ae60;
   color: #fff;
   border: none;
+  border-radius: 6px;
   cursor: pointer;
-  font-size: 16px;
 }
 
 button:hover {
@@ -58,8 +75,25 @@ button:hover {
 }
 
 #msg {
-  margin-top: 10px;
   text-align: center;
+  margin-top: 10px;
+}
+
+/* ===== RESPONSIVE HP ===== */
+@media (max-width: 600px) {
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .nav {
+    margin-top: 10px;
+  }
+
+  .nav a {
+    margin-left: 0;
+    margin-right: 15px;
+  }
 }
 </style>
 </head>
@@ -67,8 +101,8 @@ button:hover {
 <body>
 
 <div class="header">
-  <div>💰 Keuangan Online</div>
-  <div>
+  <h1>💰 Keuangan Online</h1>
+  <div class="nav">
     <a href="index.html">Input</a>
     <a href="dashboard.html">Dashboard</a>
   </div>
@@ -77,14 +111,14 @@ button:hover {
 <div class="card">
 <h2>Input Pengeluaran</h2>
 
-<select id="nama" required>
+<select id="nama">
   <option value="">Pilih Nama</option>
   <option value="Agung">Agung</option>
   <option value="Febby">Febby</option>
 </select>
 
 <input type="date" id="tanggal">
-<input type="text" id="kategori" placeholder="Kategori (Makan, Transport, dll)">
+<input type="text" id="kategori" placeholder="Kategori">
 <input type="text" id="keterangan" placeholder="Keterangan">
 <input type="number" id="jumlah" placeholder="Jumlah (Rp)">
 
@@ -94,11 +128,16 @@ button:hover {
 </div>
 
 <script>
-// ✅ URL APPS SCRIPT KAMU
 const URL_APPS_SCRIPT =
 "https://script.google.com/macros/s/AKfycby_CyQUM04INyKnXd1BEsmyR7cSafCAYFjEbm0MINgGd58ByUeIjvk5yq8g2Xr6jMAA/exec";
 
 function kirim() {
+  if (!nama.value || !tanggal.value || !jumlah.value) {
+    msg.innerText = "❗ Lengkapi data terlebih dahulu";
+    msg.style.color = "red";
+    return;
+  }
+
   const data = new URLSearchParams({
     nama: nama.value,
     tanggal: tanggal.value,
@@ -107,7 +146,7 @@ function kirim() {
     jumlah: jumlah.value
   });
 
-  msg.innerText = "Menyimpan data...";
+  msg.innerText = "⏳ Menyimpan...";
   msg.style.color = "black";
 
   fetch(URL_APPS_SCRIPT, {
@@ -119,8 +158,6 @@ function kirim() {
     msg.innerText = text;
     msg.style.color = "green";
 
-    // reset form
-    tanggal.value = "";
     kategori.value = "";
     keterangan.value = "";
     jumlah.value = "";
