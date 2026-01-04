@@ -1,213 +1,181 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <title>Dashboard Keuangan</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<title>Dashboard Keuangan</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <!-- ICON -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 
-  <!-- FONT -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; }
 
-  <style>
-    * {
-      box-sizing: border-box;
-    }
+body {
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+  background: #f4f6f9;
+  color: #1f2937;
+}
 
-    body {
-      margin: 0;
-      font-family: 'Inter', sans-serif;
-      background: #f4f6f9;
-      color: #1f2937;
-    }
+/* HEADER */
+header {
+  background: linear-gradient(135deg, #2563eb, #1e40af);
+  color: #fff;
+  padding: 16px 20px;
+}
 
-    /* ===== HEADER ===== */
-    header {
-      background: linear-gradient(135deg, #2563eb, #1e40af);
-      color: #fff;
-      padding: 16px 20px;
-    }
+.header-wrap {
+  max-width: 1100px;
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+}
 
-    .header-wrap {
-      max-width: 1100px;
-      margin: auto;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
-      flex-wrap: wrap;
-    }
+header h1 {
+  font-size: 20px;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
 
-    header h1 {
-      font-size: 20px;
-      margin: 0;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-weight: 700;
-    }
+nav {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
 
-    nav {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
+nav a {
+  text-decoration: none;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 8px 14px;
+  border-radius: 8px;
+  background: rgba(255,255,255,.15);
+}
 
-    nav a {
-      text-decoration: none;
-      color: #fff;
-      font-size: 14px;
-      font-weight: 600;
-      padding: 8px 14px;
-      border-radius: 8px;
-      background: rgba(255,255,255,.15);
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      transition: .2s;
-    }
+/* CONTAINER */
+.container {
+  max-width: 1100px;
+  margin: 24px auto;
+  padding: 0 16px;
+}
 
-    nav a:hover {
-      background: rgba(255,255,255,.25);
-    }
+/* FILTER */
+.filter {
+  background: #fff;
+  padding: 16px;
+  border-radius: 14px;
+  display: grid;
+  grid-template-columns: repeat(4,1fr);
+  gap: 12px;
+  margin-bottom: 20px;
+  box-shadow: 0 6px 16px rgba(0,0,0,.06);
+}
 
-    /* ===== CONTAINER ===== */
-    .container {
-      max-width: 1100px;
-      margin: 24px auto;
-      padding: 0 16px;
-    }
+select, button {
+  width: 100%;
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid #d1d5db;
+  font-size: 14px;
+}
 
-    /* ===== FILTER ===== */
-    .filter {
-      background: #fff;
-      padding: 16px;
-      border-radius: 14px;
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 12px;
-      margin-bottom: 20px;
-      box-shadow: 0 6px 16px rgba(0,0,0,.06);
-    }
+button {
+  background: #2563eb;
+  color: #fff;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+}
 
-    select, button {
-      width: 100%;
-      padding: 12px;
-      border-radius: 10px;
-      border: 1px solid #d1d5db;
-      font-size: 14px;
-      font-family: inherit;
-    }
+/* SUMMARY */
+.summary {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 20px;
+}
 
-    select:focus {
-      outline: none;
-      border-color: #2563eb;
-    }
+.card {
+  background: #fff;
+  padding: 20px;
+  border-radius: 16px;
+  box-shadow: 0 6px 16px rgba(0,0,0,.06);
+}
 
-    button {
-      background: #2563eb;
-      color: #fff;
-      border: none;
-      cursor: pointer;
-      font-weight: 600;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-    }
+.total-red {
+  font-size: 26px;
+  font-weight: 800;
+  color: #dc2626;
+}
 
-    button:hover {
-      background: #1e40af;
-    }
+.total-green {
+  font-size: 26px;
+  font-weight: 800;
+  color: #16a34a;
+}
 
-    /* ===== CARD ===== */
-    .card {
-      background: #fff;
-      padding: 20px;
-      border-radius: 16px;
-      box-shadow: 0 6px 16px rgba(0,0,0,.06);
-      margin-bottom: 20px;
-    }
+/* TABLE */
+.table-wrap {
+  width: 100%;
+  overflow-x: auto;
+}
 
-    .total {
-      font-size: 26px;
-      font-weight: 800;
-      color: #dc2626;
-      margin-top: 6px;
-    }
+table {
+  width: 100%;
+  min-width: 600px;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
 
-    /* ===== TABLE ===== */
-    .table-wrap {
-      width: 100%;
-      overflow-x: auto;
-    }
+col:nth-child(1){width:20%}
+col:nth-child(2){width:25%}
+col:nth-child(3){width:35%}
+col:nth-child(4){width:20%}
 
-    table {
-      width: 100%;
-      min-width: 600px;
-      border-collapse: collapse;
-    }
+th, td {
+  padding: 14px 12px;
+  border-bottom: 1px solid #e5e7eb;
+  font-size: 14px;
+}
 
-    th, td {
-      padding: 12px;
-      border-bottom: 1px solid #e5e7eb;
-      text-align: left;
-      font-size: 14px;
-      white-space: nowrap;
-    }
+th {
+  background: #f1f5f9;
+  text-align: left;
+}
 
-    th {
-      background: #f1f5f9;
-      font-weight: 700;
-    }
+.text-right {
+  text-align: right;
+  font-weight: 600;
+}
 
-    /* ===== RESPONSIVE ===== */
-    @media (max-width: 768px) {
-      .filter {
-        grid-template-columns: 1fr 1fr;
-      }
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .filter { grid-template-columns: 1fr 1fr; }
+  .summary { grid-template-columns: 1fr; }
+}
 
-      .total {
-        font-size: 22px;
-      }
-    }
-
-    @media (max-width: 480px) {
-      .filter {
-        grid-template-columns: 1fr;
-      }
-
-      header h1 {
-        font-size: 18px;
-      }
-
-      nav {
-        width: 100%;
-        justify-content: center;
-      }
-
-      nav a {
-        flex: 1;
-        justify-content: center;
-      }
-
-      th, td {
-        font-size: 13px;
-      }
-    }
-  </style>
+@media (max-width: 480px) {
+  .filter { grid-template-columns: 1fr; }
+}
+</style>
 </head>
+
 <body>
 
 <header>
   <div class="header-wrap">
     <h1><i class="fa-solid fa-chart-line"></i> Dashboard Keuangan</h1>
     <nav>
-      <a href="home.html"><i class="fa-solid fa-plus"></i> Input</a>
-      <a href="dashboard.html"><i class="fa-solid fa-table"></i> Dashboard</a>
-      <a href="index.html">Home</a>
+      <a href="home.html">Input</a>
+      <a href="menabung.html">Menabung</a>
+      <a href="dashboard.html">Dashboard</a>
     </nav>
   </div>
 </header>
@@ -223,43 +191,43 @@
 
     <select id="filterBulan">
       <option value="">Semua Bulan</option>
-      <option value="0">Januari</option>
-      <option value="1">Februari</option>
-      <option value="2">Maret</option>
-      <option value="3">April</option>
-      <option value="4">Mei</option>
-      <option value="5">Juni</option>
-      <option value="6">Juli</option>
-      <option value="7">Agustus</option>
-      <option value="8">September</option>
-      <option value="9">Oktober</option>
-      <option value="10">November</option>
-      <option value="11">Desember</option>
+      <option value="0">Jan</option><option value="1">Feb</option>
+      <option value="2">Mar</option><option value="3">Apr</option>
+      <option value="4">Mei</option><option value="5">Jun</option>
+      <option value="6">Jul</option><option value="7">Agu</option>
+      <option value="8">Sep</option><option value="9">Okt</option>
+      <option value="10">Nov</option><option value="11">Des</option>
     </select>
 
     <select id="filterTahun"></select>
 
-    <button onclick="loadData()">
-      <i class="fa-solid fa-filter"></i> Terapkan
-    </button>
+    <button onclick="loadData()">Terapkan</button>
   </div>
 
   <!-- TOTAL -->
-  <div class="card">
-    <div>Total Pengeluaran</div>
-    <div class="total" id="total">Rp 0</div>
+  <div class="summary">
+    <div class="card">
+      <div>Total Pengeluaran</div>
+      <div class="total-red" id="totalPengeluaran">Rp 0</div>
+    </div>
+
+    <div class="card">
+      <div>Total Menabung</div>
+      <div class="total-green" id="totalMenabung">Rp 0</div>
+    </div>
   </div>
 
   <!-- TABLE -->
   <div class="card">
     <div class="table-wrap">
       <table>
+        <colgroup><col><col><col><col></colgroup>
         <thead>
           <tr>
             <th>Tanggal</th>
             <th>Kategori</th>
             <th>Keterangan</th>
-            <th>Jumlah</th>
+            <th class="text-right">Jumlah</th>
           </tr>
         </thead>
         <tbody id="tbody"></tbody>
@@ -276,7 +244,9 @@ const filterNama = document.getElementById("filterNama");
 const filterBulan = document.getElementById("filterBulan");
 const filterTahun = document.getElementById("filterTahun");
 const tbody = document.getElementById("tbody");
-const totalEl = document.getElementById("total");
+
+const totalOut = document.getElementById("totalPengeluaran");
+const totalSave = document.getElementById("totalMenabung");
 
 const now = new Date().getFullYear();
 for (let y = now; y >= now - 5; y--) {
@@ -289,16 +259,14 @@ function parseGoogleDate(v) {
 }
 
 function loadData() {
-  const nama = filterNama.value;
-  const bulan = filterBulan.value;
-  const tahun = filterTahun.value;
+  let pengeluaran = 0;
+  let menabung = 0;
+  let html = "";
 
-  fetch(`https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=${nama}`)
+  fetch(`https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=${filterNama.value}`)
     .then(res => res.text())
     .then(txt => {
       const json = JSON.parse(txt.substring(47).slice(0, -2));
-      let total = 0;
-      let html = "";
 
       json.table.rows.forEach(r => {
         if (!r.c[2]?.v) return;
@@ -306,27 +274,28 @@ function loadData() {
         const tgl = parseGoogleDate(r.c[2].v);
         if (!tgl) return;
 
-        if (bulan !== "" && tgl.getMonth() != bulan) return;
-        if (tahun && tgl.getFullYear() != tahun) return;
+        if (filterBulan.value !== "" && tgl.getMonth() != filterBulan.value) return;
+        if (filterTahun.value && tgl.getFullYear() != filterTahun.value) return;
 
         const kategori = r.c[3]?.v || "";
-        const ket = r.c[4]?.v || "";
+        const ket = r.c[4]?.v || "-";
         const jumlah = Number(r.c[5]?.v || 0);
 
-        total += jumlah;
+        if (kategori === "Menabung") menabung += jumlah;
+        else pengeluaran += jumlah;
 
         html += `
-          <tr>
-            <td>${tgl.toLocaleDateString("id-ID")}</td>
-            <td>${kategori}</td>
-            <td>${ket}</td>
-            <td>Rp ${jumlah.toLocaleString("id-ID")}</td>
-          </tr>
-        `;
+        <tr>
+          <td>${tgl.toLocaleDateString("id-ID")}</td>
+          <td>${kategori}</td>
+          <td>${ket}</td>
+          <td class="text-right">Rp ${jumlah.toLocaleString("id-ID")}</td>
+        </tr>`;
       });
 
       tbody.innerHTML = html;
-      totalEl.innerText = "Rp " + total.toLocaleString("id-ID");
+      totalOut.innerText = "Rp " + pengeluaran.toLocaleString("id-ID");
+      totalSave.innerText = "Rp " + menabung.toLocaleString("id-ID");
     });
 }
 
@@ -335,5 +304,3 @@ loadData();
 
 </body>
 </html>
-
-
