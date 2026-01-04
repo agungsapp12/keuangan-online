@@ -1,249 +1,204 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dashboard Keuangan</title>
+  <meta charset="UTF-8">
+  <title>Dashboard Keuangan</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<style>
-* { box-sizing: border-box; }
+  <!-- ICON -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
-body {
-  margin: 0;
-  font-family: 'Segoe UI', Arial, sans-serif;
-  background: #f4f6f8;
-  color: #333;
-}
+  <!-- FONT -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 
-/* ===== HEADER KEREN ===== */
-.header {
-  background: linear-gradient(135deg, #1d2671, #c33764);
-  color: #fff;
-  padding: 18px 25px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  box-shadow: 0 6px 20px rgba(0,0,0,0.25);
-}
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      background: #f4f6f9;
+      color: #333;
+    }
 
-.brand {
-  font-size: 20px;
-  font-weight: bold;
-}
+    /* ===== HEADER ===== */
+    header {
+      background: linear-gradient(135deg, #2563eb, #1e40af);
+      color: white;
+      padding: 16px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+    }
 
-.brand span {
-  font-size: 13px;
-  opacity: 0.85;
-  display: block;
-}
+    header h1 {
+      margin: 0;
+      font-size: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
 
-.nav a {
-  color: #fff;
-  text-decoration: none;
-  margin-left: 18px;
-  font-weight: 600;
-}
+    nav a {
+      color: white;
+      margin-left: 20px;
+      text-decoration: none;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
 
-/* ===== CONTAINER ===== */
-.container {
-  width: 95%;
-  max-width: 1150px;
-  margin: 25px auto;
-}
+    nav a:hover {
+      text-decoration: underline;
+    }
 
-/* ===== CARD ===== */
-.card {
-  background: #fff;
-  border-radius: 16px;
-  padding: 20px;
-  margin-bottom: 20px;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
-}
+    /* ===== CONTAINER ===== */
+    .container {
+      max-width: 1100px;
+      margin: 24px auto;
+      padding: 0 16px;
+    }
 
-/* ===== FILTER BAR ===== */
-.filter-bar {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-  gap: 15px;
-  align-items: end;
-}
+    /* ===== FILTER ===== */
+    .filter {
+      background: white;
+      padding: 16px;
+      border-radius: 12px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 12px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 12px rgba(0,0,0,.05);
+    }
 
-.filter-bar label {
-  font-size: 13px;
-  font-weight: bold;
-}
+    select, button {
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #ddd;
+      font-size: 14px;
+    }
 
-select, button {
-  width: 100%;
-  padding: 10px;
-  border-radius: 10px;
-  border: 1px solid #ccc;
-  font-size: 14px;
-}
+    button {
+      background: #2563eb;
+      color: white;
+      cursor: pointer;
+      border: none;
+      font-weight: 600;
+    }
 
-button {
-  background: linear-gradient(135deg, #1d976c, #93f9b9);
-  color: #004d40;
-  font-weight: bold;
-  border: none;
-  cursor: pointer;
-}
+    button:hover {
+      background: #1e40af;
+    }
 
-button:hover {
-  opacity: 0.9;
-}
+    /* ===== CARD ===== */
+    .card {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,.05);
+      margin-bottom: 20px;
+    }
 
-/* ===== SUMMARY ===== */
-.summary {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 15px;
-}
+    .total {
+      font-size: 24px;
+      font-weight: 700;
+      color: #dc2626;
+    }
 
-.summary-box {
-  background: linear-gradient(135deg, #2193b0, #6dd5ed);
-  color: #fff;
-  padding: 22px;
-  border-radius: 16px;
-}
+    /* ===== TABLE ===== */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 12px;
+    }
 
-.summary-box h3 {
-  margin: 0;
-  font-size: 14px;
-  opacity: 0.9;
-}
+    th, td {
+      padding: 12px;
+      border-bottom: 1px solid #eee;
+      text-align: left;
+    }
 
-.summary-box h2 {
-  margin: 8px 0 0;
-  font-size: 28px;
-}
+    th {
+      background: #f1f5f9;
+    }
 
-/* ===== TABLE ===== */
-.table-wrapper {
-  overflow-x: auto;
-}
-
-table {
-  width: 100%;
-  border-collapse: collapse;
-  min-width: 700px;
-}
-
-th, td {
-  padding: 12px 10px;
-  border-bottom: 1px solid #e0e0e0;
-  font-size: 14px;
-}
-
-th {
-  background: #34495e;
-  color: #fff;
-  position: sticky;
-  top: 0;
-}
-
-tbody tr:hover {
-  background: #f1f6ff;
-}
-
-/* ===== RESPONSIVE ===== */
-@media (max-width: 600px) {
-  .header {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .nav {
-    margin-top: 10px;
-  }
-}
-</style>
+    @media (max-width: 600px) {
+      header {
+        text-align: center;
+        justify-content: center;
+        gap: 10px;
+      }
+      nav {
+        width: 100%;
+      }
+      nav a {
+        margin: 0 10px;
+      }
+    }
+  </style>
 </head>
-
 <body>
 
-<!-- ===== HEADER ===== -->
-<div class="header">
-  <div class="brand">
-    💰 Keuangan Online
-    <span>Dashboard Pengeluaran</span>
-  </div>
-  <div class="nav">
-    <a href="index.html">Input</a>
-    <a href="dashboard.html">Dashboard</a>
-  </div>
-</div>
+<header>
+  <h1><i class="fa-solid fa-chart-line"></i> Dashboard Keuangan</h1>
+  <nav>
+    <a href="index.html"><i class="fa-solid fa-plus"></i> Input</a>
+    <a href="dashboard.html"><i class="fa-solid fa-table"></i> Dashboard</a>
+  </nav>
+</header>
 
-<!-- ===== CONTENT ===== -->
 <div class="container">
 
   <!-- FILTER -->
-  <div class="card">
-    <div class="filter-bar">
-      <div>
-        <label>Nama</label>
-        <select id="filterNama">
-          <option value="Agung">Agung</option>
-          <option value="Febby">Febby</option>
-        </select>
-      </div>
+  <div class="filter">
+    <select id="filterNama">
+      <option value="Agung">Agung</option>
+      <option value="Febby">Febby</option>
+    </select>
 
-      <div>
-        <label>Bulan</label>
-        <select id="filterBulan">
-          <option value="">Semua</option>
-          <option value="0">Januari</option>
-          <option value="1">Februari</option>
-          <option value="2">Maret</option>
-          <option value="3">April</option>
-          <option value="4">Mei</option>
-          <option value="5">Juni</option>
-          <option value="6">Juli</option>
-          <option value="7">Agustus</option>
-          <option value="8">September</option>
-          <option value="9">Oktober</option>
-          <option value="10">November</option>
-          <option value="11">Desember</option>
-        </select>
-      </div>
+    <select id="filterBulan">
+      <option value="">Semua Bulan</option>
+      <option value="0">Januari</option>
+      <option value="1">Februari</option>
+      <option value="2">Maret</option>
+      <option value="3">April</option>
+      <option value="4">Mei</option>
+      <option value="5">Juni</option>
+      <option value="6">Juli</option>
+      <option value="7">Agustus</option>
+      <option value="8">September</option>
+      <option value="9">Oktober</option>
+      <option value="10">November</option>
+      <option value="11">Desember</option>
+    </select>
 
-      <div>
-        <label>Tahun</label>
-        <select id="filterTahun"></select>
-      </div>
+    <select id="filterTahun"></select>
 
-      <div>
-        <label>&nbsp;</label>
-        <button onclick="loadData()">Terapkan Filter</button>
-      </div>
-    </div>
+    <button onclick="loadData()">
+      <i class="fa-solid fa-filter"></i> Terapkan
+    </button>
   </div>
 
-  <!-- SUMMARY -->
-  <div class="summary">
-    <div class="summary-box">
-      <h3>Total Pengeluaran</h3>
-      <h2 id="total">Rp 0</h2>
-    </div>
+  <!-- TOTAL -->
+  <div class="card">
+    <div>Total Pengeluaran</div>
+    <div class="total" id="total">Rp 0</div>
   </div>
 
   <!-- TABLE -->
   <div class="card">
-    <h3>Riwayat Pengeluaran</h3>
-    <div class="table-wrapper">
-      <table>
-        <thead>
-          <tr>
-            <th>Tanggal</th>
-            <th>Kategori</th>
-            <th>Keterangan</th>
-            <th>Jumlah</th>
-          </tr>
-        </thead>
-        <tbody id="tbody"></tbody>
-      </table>
-    </div>
+    <table>
+      <thead>
+        <tr>
+          <th>Tanggal</th>
+          <th>Kategori</th>
+          <th>Keterangan</th>
+          <th>Jumlah</th>
+        </tr>
+      </thead>
+      <tbody id="tbody"></tbody>
+    </table>
   </div>
 
 </div>
@@ -251,10 +206,21 @@ tbody tr:hover {
 <script>
 const SHEET_ID = "19K7Bjz9K5N4syqAQHH21Say8X4KcC0xLGUc-b6YFCws";
 
-// isi dropdown tahun otomatis
-const yearNow = new Date().getFullYear();
-for (let y = yearNow; y >= yearNow - 5; y--) {
+const filterNama = document.getElementById("filterNama");
+const filterBulan = document.getElementById("filterBulan");
+const filterTahun = document.getElementById("filterTahun");
+const tbody = document.getElementById("tbody");
+const totalEl = document.getElementById("total");
+
+// isi tahun otomatis
+const now = new Date().getFullYear();
+for (let y = now; y >= now - 5; y--) {
   filterTahun.innerHTML += `<option value="${y}">${y}</option>`;
+}
+
+function parseGoogleDate(v) {
+  const m = v.match(/Date\((\d+),(\d+),(\d+)\)/);
+  return m ? new Date(m[1], m[2], m[3]) : null;
 }
 
 function loadData() {
@@ -262,24 +228,21 @@ function loadData() {
   const bulan = filterBulan.value;
   const tahun = filterTahun.value;
 
-  const url =
-    `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=${nama}`;
-
-  fetch(url)
+  fetch(`https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=${nama}`)
     .then(res => res.text())
-    .then(text => {
-      const json = JSON.parse(text.substring(47).slice(0, -2));
-      const rows = json.table.rows;
-
+    .then(txt => {
+      const json = JSON.parse(txt.substring(47).slice(0, -2));
       let total = 0;
       let html = "";
 
-      rows.forEach(r => {
-        if (!r.c[2]) return;
+      json.table.rows.forEach(r => {
+        if (!r.c[2]?.v) return;
 
-        const tanggalObj = new Date(r.c[2].v);
-        if (bulan !== "" && tanggalObj.getMonth() != bulan) return;
-        if (tahun && tanggalObj.getFullYear() != tahun) return;
+        const tgl = parseGoogleDate(r.c[2].v);
+        if (!tgl) return;
+
+        if (bulan !== "" && tgl.getMonth() != bulan) return;
+        if (tahun && tgl.getFullYear() != tahun) return;
 
         const kategori = r.c[3]?.v || "";
         const ket = r.c[4]?.v || "";
@@ -289,20 +252,19 @@ function loadData() {
 
         html += `
           <tr>
-            <td>${tanggalObj.toLocaleDateString()}</td>
+            <td>${tgl.toLocaleDateString("id-ID")}</td>
             <td>${kategori}</td>
             <td>${ket}</td>
-            <td>Rp ${jumlah.toLocaleString()}</td>
+            <td>Rp ${jumlah.toLocaleString("id-ID")}</td>
           </tr>
         `;
       });
 
       tbody.innerHTML = html;
-      total.innerText = "Rp " + total.toLocaleString();
+      totalEl.innerText = "Rp " + total.toLocaleString("id-ID");
     });
 }
 
-// load awal
 loadData();
 </script>
 
