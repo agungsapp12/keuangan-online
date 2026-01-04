@@ -12,45 +12,65 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 
   <style>
-    * { box-sizing: border-box; }
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       margin: 0;
       font-family: 'Inter', sans-serif;
       background: #f4f6f9;
-      color: #333;
+      color: #1f2937;
     }
 
     /* ===== HEADER ===== */
     header {
       background: linear-gradient(135deg, #2563eb, #1e40af);
-      color: white;
-      padding: 16px 24px;
+      color: #fff;
+      padding: 16px 20px;
+    }
+
+    .header-wrap {
+      max-width: 1100px;
+      margin: auto;
       display: flex;
-      justify-content: space-between;
       align-items: center;
+      justify-content: space-between;
+      gap: 16px;
       flex-wrap: wrap;
     }
 
     header h1 {
-      margin: 0;
       font-size: 20px;
+      margin: 0;
       display: flex;
       align-items: center;
       gap: 10px;
+      font-weight: 700;
+    }
+
+    nav {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
     }
 
     nav a {
-      color: white;
-      margin-left: 20px;
       text-decoration: none;
+      color: #fff;
+      font-size: 14px;
       font-weight: 600;
-      display: inline-flex;
+      padding: 8px 14px;
+      border-radius: 8px;
+      background: rgba(255,255,255,.15);
+      display: flex;
       align-items: center;
       gap: 6px;
+      transition: .2s;
     }
 
     nav a:hover {
-      text-decoration: underline;
+      background: rgba(255,255,255,.25);
     }
 
     /* ===== CONTAINER ===== */
@@ -62,29 +82,40 @@
 
     /* ===== FILTER ===== */
     .filter {
-      background: white;
+      background: #fff;
       padding: 16px;
-      border-radius: 12px;
+      border-radius: 14px;
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      grid-template-columns: repeat(4, 1fr);
       gap: 12px;
       margin-bottom: 20px;
-      box-shadow: 0 4px 12px rgba(0,0,0,.05);
+      box-shadow: 0 6px 16px rgba(0,0,0,.06);
     }
 
     select, button {
-      padding: 10px;
-      border-radius: 8px;
-      border: 1px solid #ddd;
+      width: 100%;
+      padding: 12px;
+      border-radius: 10px;
+      border: 1px solid #d1d5db;
       font-size: 14px;
+      font-family: inherit;
+    }
+
+    select:focus {
+      outline: none;
+      border-color: #2563eb;
     }
 
     button {
       background: #2563eb;
-      color: white;
-      cursor: pointer;
+      color: #fff;
       border: none;
+      cursor: pointer;
       font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
     }
 
     button:hover {
@@ -93,47 +124,77 @@
 
     /* ===== CARD ===== */
     .card {
-      background: white;
+      background: #fff;
       padding: 20px;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0,0,0,.05);
+      border-radius: 16px;
+      box-shadow: 0 6px 16px rgba(0,0,0,.06);
       margin-bottom: 20px;
     }
 
     .total {
-      font-size: 24px;
-      font-weight: 700;
+      font-size: 26px;
+      font-weight: 800;
       color: #dc2626;
+      margin-top: 6px;
     }
 
     /* ===== TABLE ===== */
+    .table-wrap {
+      width: 100%;
+      overflow-x: auto;
+    }
+
     table {
       width: 100%;
+      min-width: 600px;
       border-collapse: collapse;
-      margin-top: 12px;
     }
 
     th, td {
       padding: 12px;
-      border-bottom: 1px solid #eee;
+      border-bottom: 1px solid #e5e7eb;
       text-align: left;
+      font-size: 14px;
+      white-space: nowrap;
     }
 
     th {
       background: #f1f5f9;
+      font-weight: 700;
     }
 
-    @media (max-width: 600px) {
-      header {
-        text-align: center;
-        justify-content: center;
-        gap: 10px;
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 768px) {
+      .filter {
+        grid-template-columns: 1fr 1fr;
       }
+
+      .total {
+        font-size: 22px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .filter {
+        grid-template-columns: 1fr;
+      }
+
+      header h1 {
+        font-size: 18px;
+      }
+
       nav {
         width: 100%;
+        justify-content: center;
       }
+
       nav a {
-        margin: 0 10px;
+        flex: 1;
+        justify-content: center;
+      }
+
+      th, td {
+        font-size: 13px;
       }
     }
   </style>
@@ -141,11 +202,13 @@
 <body>
 
 <header>
-  <h1><i class="fa-solid fa-chart-line"></i> Dashboard Keuangan</h1>
-  <nav>
-    <a href="index.html"><i class="fa-solid fa-plus"></i> Input</a>
-    <a href="dashboard.html"><i class="fa-solid fa-table"></i> Dashboard</a>
-  </nav>
+  <div class="header-wrap">
+    <h1><i class="fa-solid fa-chart-line"></i> Dashboard Keuangan</h1>
+    <nav>
+      <a href="index.html"><i class="fa-solid fa-plus"></i> Input</a>
+      <a href="dashboard.html"><i class="fa-solid fa-table"></i> Dashboard</a>
+    </nav>
+  </div>
 </header>
 
 <div class="container">
@@ -188,17 +251,19 @@
 
   <!-- TABLE -->
   <div class="card">
-    <table>
-      <thead>
-        <tr>
-          <th>Tanggal</th>
-          <th>Kategori</th>
-          <th>Keterangan</th>
-          <th>Jumlah</th>
-        </tr>
-      </thead>
-      <tbody id="tbody"></tbody>
-    </table>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Tanggal</th>
+            <th>Kategori</th>
+            <th>Keterangan</th>
+            <th>Jumlah</th>
+          </tr>
+        </thead>
+        <tbody id="tbody"></tbody>
+      </table>
+    </div>
   </div>
 
 </div>
@@ -212,7 +277,6 @@ const filterTahun = document.getElementById("filterTahun");
 const tbody = document.getElementById("tbody");
 const totalEl = document.getElementById("total");
 
-// isi tahun otomatis
 const now = new Date().getFullYear();
 for (let y = now; y >= now - 5; y--) {
   filterTahun.innerHTML += `<option value="${y}">${y}</option>`;
