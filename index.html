@@ -12,9 +12,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 
 <style>
-* {
-  box-sizing: border-box;
-}
+* { box-sizing: border-box; }
 
 body {
   margin: 0;
@@ -23,7 +21,7 @@ body {
   color: #1f2937;
 }
 
-/* ===== HEADER ===== */
+/* HEADER */
 header {
   background: linear-gradient(135deg, #2563eb, #1e40af);
   color: #fff;
@@ -46,17 +44,17 @@ header p {
   opacity: .9;
 }
 
-/* ===== CONTAINER ===== */
+/* CONTAINER */
 .container {
   max-width: 1000px;
   margin: 40px auto;
   padding: 0 16px;
 }
 
-/* ===== GRID MENU ===== */
+/* GRID MENU */
 .menu-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 20px;
 }
 
@@ -94,21 +92,14 @@ header p {
   box-shadow: 0 14px 28px rgba(0,0,0,.1);
 }
 
-/* ===== RESPONSIVE ===== */
-@media (max-width: 768px) {
-  .menu-grid {
-    grid-template-columns: 1fr 1fr;
-  }
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  .menu-grid { grid-template-columns: 1fr 1fr; }
 }
 
 @media (max-width: 480px) {
-  .menu-grid {
-    grid-template-columns: 1fr;
-  }
-
-  header h1 {
-    font-size: 20px;
-  }
+  .menu-grid { grid-template-columns: 1fr; }
+  header h1 { font-size: 20px; }
 }
 </style>
 </head>
@@ -123,7 +114,7 @@ header p {
 <div class="container">
   <div class="menu-grid">
 
-    <!-- INPUT -->
+    <!-- INPUT PENGELUARAN -->
     <a href="home.html" class="menu-card">
       <i class="fa-solid fa-plus-circle"></i>
       <h3>Input Pengeluaran</h3>
@@ -134,14 +125,21 @@ header p {
     <a href="dashboard.html" class="menu-card">
       <i class="fa-solid fa-chart-line"></i>
       <h3>Dashboard</h3>
-      <p>Lihat rekap & total pengeluaran</p>
+      <p>Rekap & analisis keuangan</p>
     </a>
 
-    <!-- EDIT -->
+    <!-- EDIT DATA -->
     <a href="edit.html" class="menu-card">
       <i class="fa-solid fa-pen-to-square"></i>
       <h3>Edit Data</h3>
-      <p>Ubah atau hapus data pengeluaran</p>
+      <p>Ubah atau hapus data</p>
+    </a>
+
+    <!-- MENABUNG -->
+    <a href="menabung.html" class="menu-card">
+      <i class="fa-solid fa-piggy-bank"></i>
+      <h3>Menabung</h3>
+      <p>Catat & pantau tabungan</p>
     </a>
 
   </div>
@@ -149,5 +147,3 @@ header p {
 
 </body>
 </html>
-
-
