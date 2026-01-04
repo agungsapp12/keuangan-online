@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Edit Data Pengeluaran</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+<style>
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+  background: #f4f6f9;
+}
+
+/* HEADER */
+header {
+  background: linear-gradient(135deg, #2563eb, #1e40af);
+  color: #fff;
+  padding: 16px;
+}
+.header-wrap {
+  max-width: 1100px;
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+nav a {
+  color: #fff;
+  text-decoration: none;
+  padding: 8px 14px;
+  border-radius: 8px;
+  background: rgba(255,255,255,.15);
+  margin-left: 8px;
+  font-weight: 600;
+}
+
+/* CONTAINER */
+.container {
+  max-width: 1100px;
+  margin: 24px auto;
+  padding: 0 16px;
+}
+
+/* CARD */
+.card {
+  background: #fff;
+  padding: 18px;
+  border-radius: 16px;
+  box-shadow: 0 6px 16px rgba(0,0,0,.06);
+  margin-bottom: 20px;
+}
+
+/* FILTER */
+.filter {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px,1fr));
+  gap: 12px;
+}
+
+select, button, input {
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid #d1d5db;
+  font-family: inherit;
+}
+
+button {
+  background: #2563eb;
+  color: #fff;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+}
+
+/* TABLE */
+.table-wrap {
+  overflow-x: auto;
+}
+table {
+  width: 100%;
+  min-width: 800px;
+  border-collapse: collapse;
+}
+th, td {
+  padding: 12px;
+  border-bottom: 1px solid #e5e7eb;
+  white-space: nowrap;
+}
+th {
+  background: #f1f5f9;
+}
+.btn-edit {
+  background: #facc15;
+  border: none;
+  padding: 6px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.btn-delete {
+  background: #ef4444;
+  color: #fff;
+  border: none;
+  padding: 6px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+/* MODAL */
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.4);
+  display: none;
+  align-items: center;
+  justify-content: center;
+}
+.modal-content {
+  background: #fff;
+  padding: 20px;
+  width: 95%;
+  max-width: 420px;
+  border-radius: 14px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="header-wrap">
+    <h2><i class="fa-solid fa-pen-to-square"></i> Edit Data</h2>
+    <nav>
+      <a href="home.html">Home</a>
+      <a href="index.html">Input</a>
+      <a href="dashboard.html">Dashboard</a>
+    </nav>
+  </div>
+</header>
+
+<div class="container">
+
+  <!-- FILTER -->
+  <div class="card filter">
+    <select id="filterNama">
+      <option value="">Pilih Nama</option>
+      <option value="Agung">Agung</option>
+      <option value="Febby">Febby</option>
+    </select>
+
+    <select id="filterBulan">
+      <option value="">Semua Bulan</option>
+      <option value="0">Januari</option>
+      <option value="1">Februari</option>
+      <option value="2">Maret</option>
+      <option value="3">April</option>
+      <option value="4">Mei</option>
+      <option value="5">Juni</option>
+      <option value="6">Juli</option>
+      <option value="7">Agustus</option>
+      <option value="8">September</option>
+      <option value="9">Oktober</option>
+      <option value="10">November</option>
+      <option value="11">Desember</option>
+    </select>
+
+    <select id="filterTahun"></select>
+
+    <select id="filterKategori">
+      <option value="">Semua Kategori</option>
+      <option>Makan & Minum</option>
+      <option>Transport</option>
+      <option>Belanja</option>
+      <option>Tagihan</option>
+      <option>Hiburan</option>
+      <option>Kesehatan</option>
+      <option>Pendidikan</option>
+      <option>Lainnya</option>
+    </select>
+
+    <button onclick="loadData()">
+      <i class="fa-solid fa-filter"></i> Tampilkan
+    </button>
+  </div>
+
+  <!-- TABLE -->
+  <div class="card">
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Tanggal</th>
+            <th>Nama</th>
+            <th>Kategori</th>
+            <th>Keterangan</th>
+            <th>Jumlah</th>
+            <th>Aksi</th>
+          </tr>
+        </thead>
+        <tbody id="tbody"></tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const SHEET_ID = "19K7Bjz9K5N4syqAQHH21Say8X4KcC0xLGUc-b6YFCws";
+
+const filterNama = document.getElementById("filterNama");
+const filterBulan = document.getElementById("filterBulan");
+const filterTahun = document.getElementById("filterTahun");
+const filterKategori = document.getElementById("filterKategori");
+const tbody = document.getElementById("tbody");
+
+// tahun otomatis
+const now = new Date().getFullYear();
+for (let y = now; y >= now - 5; y--) {
+  filterTahun.innerHTML += `<option value="${y}">${y}</option>`;
+}
+
+function parseGoogleDate(v) {
+  const m = v.match(/Date\((\d+),(\d+),(\d+)\)/);
+  return m ? new Date(m[1], m[2], m[3]) : null;
+}
+
+function loadData() {
+  if (!filterNama.value) {
+    alert("Pilih nama terlebih dahulu");
+    return;
+  }
+
+  fetch(`https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=${filterNama.value}`)
+    .then(res => res.text())
+    .then(txt => {
+      const json = JSON.parse(txt.substring(47).slice(0, -2));
+      let html = "";
+
+      json.table.rows.forEach((r, i) => {
+        if (!r.c[2]?.v) return;
+
+        const tgl = parseGoogleDate(r.c[2].v);
+        if (!tgl) return;
+
+        if (filterBulan.value !== "" && tgl.getMonth() != filterBulan.value) return;
+        if (filterTahun.value && tgl.getFullYear() != filterTahun.value) return;
+        if (filterKategori.value && r.c[3]?.v !== filterKategori.value) return;
+
+        html += `
+          <tr>
+            <td>${tgl.toLocaleDateString("id-ID")}</td>
+            <td>${filterNama.value}</td>
+            <td>${r.c[3]?.v || ""}</td>
+            <td>${r.c[4]?.v || ""}</td>
+            <td>Rp ${Number(r.c[5]?.v || 0).toLocaleString("id-ID")}</td>
+            <td>
+              <button class="btn-edit">Edit</button>
+              <button class="btn-delete">Hapus</button>
+            </td>
+          </tr>
+        `;
+      });
+
+      tbody.innerHTML = html || `<tr><td colspan="6">Tidak ada data</td></tr>`;
+    });
+}
+</script>
+
+</body>
+</html>

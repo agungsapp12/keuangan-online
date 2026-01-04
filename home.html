@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Keuangan Online</title>
+
+<!-- ICON -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<!-- FONT -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+  background: #f4f6f9;
+  color: #1f2937;
+}
+
+/* ===== HEADER ===== */
+header {
+  background: linear-gradient(135deg, #2563eb, #1e40af);
+  color: #fff;
+  padding: 22px;
+  text-align: center;
+}
+
+header h1 {
+  margin: 0;
+  font-size: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+header p {
+  margin-top: 8px;
+  font-size: 14px;
+  opacity: .9;
+}
+
+/* ===== CONTAINER ===== */
+.container {
+  max-width: 1000px;
+  margin: 40px auto;
+  padding: 0 16px;
+}
+
+/* ===== GRID MENU ===== */
+.menu-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.menu-card {
+  background: #fff;
+  border-radius: 18px;
+  padding: 30px 20px;
+  text-align: center;
+  text-decoration: none;
+  color: inherit;
+  box-shadow: 0 8px 20px rgba(0,0,0,.06);
+  transition: .25s;
+}
+
+.menu-card i {
+  font-size: 42px;
+  margin-bottom: 16px;
+  color: #2563eb;
+}
+
+.menu-card h3 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.menu-card p {
+  font-size: 13px;
+  margin-top: 8px;
+  color: #6b7280;
+}
+
+.menu-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 14px 28px rgba(0,0,0,.1);
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .menu-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .menu-grid {
+    grid-template-columns: 1fr;
+  }
+
+  header h1 {
+    font-size: 20px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1><i class="fa-solid fa-wallet"></i> Keuangan Online</h1>
+  <p>Pilih menu untuk melanjutkan</p>
+</header>
+
+<div class="container">
+  <div class="menu-grid">
+
+    <!-- INPUT -->
+    <a href="index.html" class="menu-card">
+      <i class="fa-solid fa-plus-circle"></i>
+      <h3>Input Pengeluaran</h3>
+      <p>Tambah data pengeluaran harian</p>
+    </a>
+
+    <!-- DASHBOARD -->
+    <a href="dashboard.html" class="menu-card">
+      <i class="fa-solid fa-chart-line"></i>
+      <h3>Dashboard</h3>
+      <p>Lihat rekap & total pengeluaran</p>
+    </a>
+
+    <!-- EDIT -->
+    <a href="edit.html" class="menu-card">
+      <i class="fa-solid fa-pen-to-square"></i>
+      <h3>Edit Data</h3>
+      <p>Ubah atau hapus data pengeluaran</p>
+    </a>
+
+  </div>
+</div>
+
+</body>
+</html>
