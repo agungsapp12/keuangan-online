@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>Input Pengeluaran</title>
+
+<style>
+body {
+  font-family: Arial, sans-serif;
+  background: #f4f6f8;
+  margin: 0;
+}
+
+.header {
+  background: #2c3e50;
+  color: #fff;
+  padding: 15px 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header a {
+  color: #fff;
+  text-decoration: none;
+  margin-left: 20px;
+  font-weight: bold;
+}
+
+.card {
+  width: 420px;
+  margin: 40px auto;
+  background: #fff;
+  padding: 25px;
+  border-radius: 10px;
+}
+
+h2 {
+  text-align: center;
+}
+
+input, select, button {
+  width: 100%;
+  padding: 10px;
+  margin: 8px 0;
+}
+
+button {
+  background: #27ae60;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+button:hover {
+  background: #219150;
+}
+
+#msg {
+  margin-top: 10px;
+  text-align: center;
+}
+</style>
+</head>
+
+<body>
+
+<div class="header">
+  <div>💰 Keuangan Online</div>
+  <div>
+    <a href="index.html">Input</a>
+    <a href="dashboard.html">Dashboard</a>
+  </div>
+</div>
+
+<div class="card">
+<h2>Input Pengeluaran</h2>
+
+<select id="nama" required>
+  <option value="">Pilih Nama</option>
+  <option value="Agung">Agung</option>
+  <option value="Febby">Febby</option>
+</select>
+
+<input type="date" id="tanggal">
+<input type="text" id="kategori" placeholder="Kategori (Makan, Transport, dll)">
+<input type="text" id="keterangan" placeholder="Keterangan">
+<input type="number" id="jumlah" placeholder="Jumlah (Rp)">
+
+<button onclick="kirim()">Simpan</button>
+
+<div id="msg"></div>
+</div>
+
+<script>
+// ✅ URL APPS SCRIPT KAMU
+const URL_APPS_SCRIPT =
+"https://script.google.com/macros/s/AKfycby_CyQUM04INyKnXd1BEsmyR7cSafCAYFjEbm0MINgGd58ByUeIjvk5yq8g2Xr6jMAA/exec";
+
+function kirim() {
+  const data = new URLSearchParams({
+    nama: nama.value,
+    tanggal: tanggal.value,
+    kategori: kategori.value,
+    keterangan: keterangan.value,
+    jumlah: jumlah.value
+  });
+
+  msg.innerText = "Menyimpan data...";
+  msg.style.color = "black";
+
+  fetch(URL_APPS_SCRIPT, {
+    method: "POST",
+    body: data
+  })
+  .then(res => res.text())
+  .then(text => {
+    msg.innerText = text;
+    msg.style.color = "green";
+
+    // reset form
+    tanggal.value = "";
+    kategori.value = "";
+    keterangan.value = "";
+    jumlah.value = "";
+  })
+  .catch(() => {
+    msg.innerText = "❌ Gagal menyimpan data";
+    msg.style.color = "red";
+  });
+}
+</script>
+
+</body>
+</html>
