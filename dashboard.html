@@ -18,7 +18,7 @@ body {
   color: #1f2937;
 }
 
-/* HEADER */
+/* ===== HEADER (SAMA DENGAN home.html) ===== */
 header {
   background: linear-gradient(135deg, #2563eb, #1e40af);
   color: #fff;
@@ -57,16 +57,24 @@ nav a {
   padding: 8px 14px;
   border-radius: 8px;
   background: rgba(255,255,255,.15);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: .2s;
 }
 
-/* CONTAINER */
+nav a:hover {
+  background: rgba(255,255,255,.25);
+}
+
+/* ===== CONTAINER ===== */
 .container {
   max-width: 1100px;
   margin: 24px auto;
   padding: 0 16px;
 }
 
-/* FILTER */
+/* ===== FILTER ===== */
 .filter {
   background: #fff;
   padding: 16px;
@@ -94,7 +102,7 @@ button {
   cursor: pointer;
 }
 
-/* SUMMARY */
+/* ===== SUMMARY ===== */
 .summary {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -121,7 +129,7 @@ button {
   color: #16a34a;
 }
 
-/* TABLE */
+/* ===== TABLE ===== */
 .table-wrap {
   width: 100%;
   overflow-x: auto;
@@ -155,13 +163,25 @@ th {
   font-weight: 600;
 }
 
-/* RESPONSIVE */
+/* ===== RESPONSIVE ===== */
 @media (max-width: 768px) {
   .filter { grid-template-columns: 1fr 1fr; }
   .summary { grid-template-columns: 1fr; }
 }
 
 @media (max-width: 480px) {
+  header h1 { font-size: 18px; }
+
+  nav {
+    width: 100%;
+    justify-content: center;
+  }
+
+  nav a {
+    flex: 1;
+    justify-content: center;
+  }
+
   .filter { grid-template-columns: 1fr; }
 }
 </style>
@@ -171,11 +191,11 @@ th {
 
 <header>
   <div class="header-wrap">
-    <h1><i class="fa-solid fa-chart-line"></i> Dashboard Keuangan</h1>
+    <h1><i class="fa-solid fa-wallet"></i> Keuangan Online</h1>
     <nav>
-      <a href="home.html">Input</a>
-      <a href="menabung.html">Menabung</a>
-      <a href="dashboard.html">Dashboard</a>
+      <a href="home.html"><i class="fa-solid fa-plus"></i> Input</a>
+      <a href="dashboard.html"><i class="fa-solid fa-table"></i> Dashboard</a>
+      <a href="index.html">Home</a>
     </nav>
   </div>
 </header>
@@ -269,7 +289,6 @@ async function loadAll() {
   let menabung = 0;
   let html = "";
 
-  /* ===== TABEL & PENGELUARAN (SESUI FILTER NAMA) ===== */
   const data = await fetchSheet(filterNama.value);
 
   data.table.rows.forEach(r => {
@@ -298,9 +317,7 @@ async function loadAll() {
   tbody.innerHTML = html;
   totalOut.innerText = "Rp " + pengeluaran.toLocaleString("id-ID");
 
-  /* ===== TOTAL MENABUNG (GABUNGAN AGUNG + FEBBY) ===== */
   const sheets = ["Agung", "Febby"];
-
   for (const s of sheets) {
     const d = await fetchSheet(s);
     d.table.rows.forEach(r => {
@@ -318,4 +335,3 @@ loadAll();
 
 </body>
 </html>
-
