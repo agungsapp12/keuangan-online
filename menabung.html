@@ -21,7 +21,7 @@ body {
   color: #1f2937;
 }
 
-/* ===== HEADER ===== */
+/* ===== HEADER (SAMA DENGAN home.html) ===== */
 header {
   background: linear-gradient(135deg, #2563eb, #1e40af);
   color: #fff;
@@ -63,6 +63,11 @@ nav a {
   display: flex;
   align-items: center;
   gap: 6px;
+  transition: .2s;
+}
+
+nav a:hover {
+  background: rgba(255,255,255,.25);
 }
 
 /* ===== CARD ===== */
@@ -175,6 +180,23 @@ button:hover { background: #15803d; }
 .payment-right a:hover {
   background: #1e40af;
 }
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 480px) {
+  header h1 {
+    font-size: 18px;
+  }
+
+  nav {
+    width: 100%;
+    justify-content: center;
+  }
+
+  nav a {
+    flex: 1;
+    justify-content: center;
+  }
+}
 </style>
 </head>
 
@@ -182,11 +204,11 @@ button:hover { background: #15803d; }
 
 <header>
   <div class="header-wrap">
-    <h1><i class="fa-solid fa-piggy-bank"></i> Menabung</h1>
+    <h1><i class="fa-solid fa-wallet"></i> Keuangan Online</h1>
     <nav>
       <a href="home.html"><i class="fa-solid fa-plus"></i> Input</a>
-      <a href="menabung.html"><i class="fa-solid fa-piggy-bank"></i> Menabung</a>
       <a href="dashboard.html"><i class="fa-solid fa-table"></i> Dashboard</a>
+      <a href="index.html">Home</a>
     </nav>
   </div>
 </header>
@@ -229,7 +251,6 @@ button:hover { background: #15803d; }
 
   <div id="msg"></div>
 
-  <!-- ===== METODE PEMBAYARAN ===== -->
   <div class="qr-box">
     <h3><i class="fa-solid fa-credit-card"></i> Metode Pembayaran</h3>
 
@@ -255,7 +276,6 @@ button:hover { background: #15803d; }
       </div>
     </div>
   </div>
-
 </div>
 
 <script>
@@ -299,4 +319,3 @@ function kirim() {
 
 </body>
 </html>
-
