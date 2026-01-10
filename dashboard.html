@@ -18,7 +18,7 @@ body {
   color: #1f2937;
 }
 
-/* ===== HEADER (SAMA DENGAN home.html) ===== */
+/* HEADER */
 header {
   background: linear-gradient(135deg, #2563eb, #1e40af);
   color: #fff;
@@ -60,21 +60,20 @@ nav a {
   display: flex;
   align-items: center;
   gap: 6px;
-  transition: .2s;
 }
 
 nav a:hover {
   background: rgba(255,255,255,.25);
 }
 
-/* ===== CONTAINER ===== */
+/* CONTAINER */
 .container {
   max-width: 1100px;
   margin: 24px auto;
   padding: 0 16px;
 }
 
-/* ===== FILTER ===== */
+/* FILTER */
 .filter {
   background: #fff;
   padding: 16px;
@@ -102,10 +101,10 @@ button {
   cursor: pointer;
 }
 
-/* ===== SUMMARY ===== */
+/* SUMMARY */
 .summary {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(4,1fr);
   gap: 16px;
   margin-bottom: 20px;
 }
@@ -118,18 +117,30 @@ button {
 }
 
 .total-red {
-  font-size: 26px;
+  font-size: 24px;
   font-weight: 800;
   color: #dc2626;
 }
 
 .total-green {
-  font-size: 26px;
+  font-size: 24px;
   font-weight: 800;
   color: #16a34a;
 }
 
-/* ===== TABLE ===== */
+.total-blue {
+  font-size: 24px;
+  font-weight: 800;
+  color: #2563eb;
+}
+
+.total-dark {
+  font-size: 26px;
+  font-weight: 900;
+  color: #111827;
+}
+
+/* TABLE */
 .table-wrap {
   width: 100%;
   overflow-x: auto;
@@ -137,15 +148,9 @@ button {
 
 table {
   width: 100%;
-  min-width: 600px;
+  min-width: 700px;
   border-collapse: collapse;
-  table-layout: fixed;
 }
-
-col:nth-child(1){width:20%}
-col:nth-child(2){width:25%}
-col:nth-child(3){width:35%}
-col:nth-child(4){width:20%}
 
 th, td {
   padding: 14px 12px;
@@ -163,26 +168,14 @@ th {
   font-weight: 600;
 }
 
-/* ===== RESPONSIVE ===== */
+/* RESPONSIVE */
 @media (max-width: 768px) {
   .filter { grid-template-columns: 1fr 1fr; }
-  .summary { grid-template-columns: 1fr; }
+  .summary { grid-template-columns: 1fr 1fr; }
 }
 
 @media (max-width: 480px) {
-  header h1 { font-size: 18px; }
-
-  nav {
-    width: 100%;
-    justify-content: center;
-  }
-
-  nav a {
-    flex: 1;
-    justify-content: center;
-  }
-
-  .filter { grid-template-columns: 1fr; }
+  .summary { grid-template-columns: 1fr; }
 }
 </style>
 </head>
@@ -194,8 +187,9 @@ th {
     <h1><i class="fa-solid fa-wallet"></i> Keuangan Online</h1>
     <nav>
       <a href="home.html"><i class="fa-solid fa-plus"></i> Input</a>
-      <a href="dashboard.html"><i class="fa-solid fa-table"></i> Dashboard</a>
-      <a href="index.html">Home</a>
+      <a href="pemasukan.html"><i class="fa-solid fa-money-bill"></i> Pemasukan</a>
+      <a href="dashboard.html"><i class="fa-solid fa-chart-line"></i> Dashboard</a>
+      <a href="index.html"><i class="fa-solid fa-house"></i> Home</a>
     </nav>
   </div>
 </header>
@@ -220,20 +214,29 @@ th {
     </select>
 
     <select id="filterTahun"></select>
-
     <button onclick="loadAll()">Terapkan</button>
   </div>
 
-  <!-- TOTAL -->
+  <!-- SUMMARY -->
   <div class="summary">
     <div class="card">
-      <div>Total Pengeluaran</div>
-      <div class="total-red" id="totalPengeluaran">Rp 0</div>
+      <div>Total Pemasukan</div>
+      <div class="total-blue" id="totalIn">Rp 0</div>
     </div>
 
     <div class="card">
-      <div>Total Tabungan</div>
-      <div class="total-green" id="totalMenabung">Rp 0</div>
+      <div>Total Pengeluaran</div>
+      <div class="total-red" id="totalOut">Rp 0</div>
+    </div>
+
+    <div class="card">
+      <div>Total Menabung</div>
+      <div class="total-green" id="totalSave">Rp 0</div>
+    </div>
+
+    <div class="card">
+      <div>Saldo</div>
+      <div class="total-dark" id="saldo">Rp 0</div>
     </div>
   </div>
 
@@ -241,7 +244,6 @@ th {
   <div class="card">
     <div class="table-wrap">
       <table>
-        <colgroup><col><col><col><col></colgroup>
         <thead>
           <tr>
             <th>Tanggal</th>
@@ -261,8 +263,10 @@ th {
 const SHEET_ID = "19K7Bjz9K5N4syqAQHH21Say8X4KcC0xLGUc-b6YFCws";
 const tbody = document.getElementById("tbody");
 
-const totalOut = document.getElementById("totalPengeluaran");
-const totalSave = document.getElementById("totalMenabung");
+const totalInEl = document.getElementById("totalIn");
+const totalOutEl = document.getElementById("totalOut");
+const totalSaveEl = document.getElementById("totalSave");
+const saldoEl = document.getElementById("saldo");
 
 const filterNama = document.getElementById("filterNama");
 const filterBulan = document.getElementById("filterBulan");
@@ -273,27 +277,28 @@ for (let y = now; y >= now - 5; y--) {
   filterTahun.innerHTML += `<option value="${y}">${y}</option>`;
 }
 
-function parseGoogleDate(v) {
+function parseDate(v) {
   const m = v.match(/Date\((\d+),(\d+),(\d+)\)/);
   return m ? new Date(m[1], m[2], m[3]) : null;
 }
 
 function fetchSheet(sheet) {
   return fetch(`https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=${sheet}`)
-    .then(res => res.text())
-    .then(txt => JSON.parse(txt.substring(47).slice(0, -2)));
+    .then(r => r.text())
+    .then(t => JSON.parse(t.substring(47).slice(0, -2)));
 }
 
 async function loadAll() {
-  let pengeluaran = 0;
-  let menabung = 0;
+  let totalIn = 0;
+  let totalOut = 0;
+  let totalSave = 0;
   let html = "";
 
   const data = await fetchSheet(filterNama.value);
 
   data.table.rows.forEach(r => {
     if (!r.c[2]?.v) return;
-    const tgl = parseGoogleDate(r.c[2].v);
+    const tgl = parseDate(r.c[2].v);
     if (!tgl) return;
 
     if (filterBulan.value !== "" && tgl.getMonth() != filterBulan.value) return;
@@ -302,32 +307,28 @@ async function loadAll() {
     const kategori = r.c[3]?.v || "";
     const ket = r.c[4]?.v || "-";
     const jumlah = Number(r.c[5]?.v || 0);
+    const pemasukan = Number(r.c[6]?.v || 0);
 
-    if (kategori !== "Menabung") pengeluaran += jumlah;
+    if (kategori === "Menabung") totalSave += jumlah;
+    else if (kategori !== "Pemasukan") totalOut += jumlah;
+
+    totalIn += pemasukan;
 
     html += `
       <tr>
         <td>${tgl.toLocaleDateString("id-ID")}</td>
         <td>${kategori}</td>
         <td>${ket}</td>
-        <td class="text-right">Rp ${jumlah.toLocaleString("id-ID")}</td>
+        <td class="text-right">Rp ${(jumlah || pemasukan).toLocaleString("id-ID")}</td>
       </tr>`;
   });
 
   tbody.innerHTML = html;
-  totalOut.innerText = "Rp " + pengeluaran.toLocaleString("id-ID");
 
-  const sheets = ["Agung", "Febby"];
-  for (const s of sheets) {
-    const d = await fetchSheet(s);
-    d.table.rows.forEach(r => {
-      if (r.c[3]?.v === "Menabung") {
-        menabung += Number(r.c[5]?.v || 0);
-      }
-    });
-  }
-
-  totalSave.innerText = "Rp " + menabung.toLocaleString("id-ID");
+  totalInEl.innerText = "Rp " + totalIn.toLocaleString("id-ID");
+  totalOutEl.innerText = "Rp " + totalOut.toLocaleString("id-ID");
+  totalSaveEl.innerText = "Rp " + totalSave.toLocaleString("id-ID");
+  saldoEl.innerText = "Rp " + (totalIn - totalOut).toLocaleString("id-ID");
 }
 
 loadAll();
