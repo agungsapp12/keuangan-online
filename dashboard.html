@@ -1,108 +1,124 @@
+<?php
+$id = $_GET['id'] ?? '';
+?>
+
 <!DOCTYPE html>
-<html lang="id">
+<html>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dashboard</title>
+<title>Jawab Detail</title>
 
 <style>
-/* RESET */
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-}
-
-/* FIX LAYOUT */
-html, body {
-  margin:0;
-  padding:0;
-  overflow-x:hidden;
-}
-
-/* BODY */
 body {
-  font-family: 'Segoe UI', sans-serif;
+  font-family: Arial, sans-serif;
   background: linear-gradient(135deg,#667eea,#764ba2);
-  color:white;
+  margin:0;
+  padding:15px;
 }
 
-/* CONTAINER */
+/* CENTER CONTAINER */
 .container {
-  width:100%;
-  max-width:1100px;
+  max-width:750px;
   margin:auto;
-  padding:20px;
-}
-
-/* HEADER */
-.header {
-  text-align:center;
-  margin-bottom:25px;
-}
-
-.header h1 {
-  font-size:26px;
-}
-
-.header p {
-  font-size:14px;
-  opacity:0.9;
-}
-
-/* GRID */
-.grid {
-  display:grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px,1fr));
-  gap:16px;
 }
 
 /* CARD */
 .card {
-  width:100%;
   background:white;
-  color:#333;
+  border-radius:12px;
   padding:20px;
-  border-radius:16px;
-  cursor:pointer;
-  text-align:center;
-  box-shadow:0 8px 20px rgba(0,0,0,0.15);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow:0 5px 20px rgba(0,0,0,0.15);
 }
 
-.card:hover {
-  transform: translateY(-4px);
+/* TITLE */
+h2 {
+  margin-top:0;
+  color:#333;
 }
 
-/* ICON */
-.icon {
-  font-size:38px;
-  margin-bottom:10px;
+/* SOAL BOX */
+.soal-box {
+  background:#f8f9fa;
+  padding:15px;
+  border-radius:10px;
+  margin-bottom:15px;
+  line-height:1.7;
+  white-space:pre-line;
+
+  border-left:5px solid #667eea;
 }
 
-/* TEXT */
-.card h2 {
-  font-size:18px;
-  margin-bottom:5px;
-}
-
-.card p {
+/* META */
+.meta {
   font-size:13px;
   color:#666;
+  margin-bottom:15px;
+}
+
+/* LABEL */
+label {
+  font-weight:bold;
+  display:block;
+  margin-bottom:8px;
+  color:#444;
+}
+
+/* TEXTAREA */
+textarea {
+  width:100%;
+  min-height:220px;
+  padding:12px;
+  border-radius:10px;
+  border:1px solid #ccc;
+  font-size:14px;
+  line-height:1.6;
+  resize:vertical;
+  box-sizing:border-box;
+}
+
+/* BUTTON */
+button {
+  width:100%;
+  margin-top:15px;
+  padding:12px;
+  background:#667eea;
+  color:white;
+  border:none;
+  border-radius:8px;
+  font-size:15px;
+  cursor:pointer;
+  transition:0.2s;
+}
+
+button:hover {
+  background:#5563d6;
+}
+
+/* BACK BUTTON */
+.back {
+  margin-bottom:10px;
+  display:inline-block;
+  padding:8px 12px;
+  background:#444;
+  color:white;
+  border-radius:6px;
+  text-decoration:none;
+  font-size:14px;
+}
+
+.back:hover {
+  background:#222;
 }
 
 /* MOBILE */
-@media (max-width:480px){
-  .container {
+@media (max-width:600px){
+  .card {
     padding:15px;
   }
 
-  .card {
-    padding:18px;
-  }
-
-  .header h1 {
-    font-size:22px;
+  textarea {
+    min-height:180px;
   }
 }
 </style>
@@ -112,41 +128,80 @@ body {
 
 <div class="container">
 
-  <div class="header">
-    <h1>📚 Dashboard</h1>
-    <p>Pilih menu sistem pembelajaran</p>
-  </div>
+  <a class="back" href="jawab_soal.php">← Kembali</a>
 
-  <div class="grid">
+  <div class="card">
 
-    <!-- BUAT SOAL -->
-    <div class="card" onclick="goTo('buat_soal.php')">
-      <div class="icon">✏️</div>
-      <h2>Buat Soal</h2>
-      <p>Guru membuat soal essay</p>
-    </div>
+    <h2>Detail Soal</h2>
 
-    <!-- JAWAB SOAL -->
-    <div class="card" onclick="goTo('jawab_soal.php')">
-      <div class="icon">📝</div>
-      <h2>Jawab Soal</h2>
-      <p>Siswa mengerjakan soal</p>
-    </div>
+    <div id="soal" class="soal-box">Loading soal...</div>
 
-    <!-- VOCAB -->
-    <div class="card" onclick="goTo('vocab.php')">
-      <div class="icon">📖</div>
-      <h2>Vocabulary</h2>
-      <p>Kelola kosakata bahasa Inggris</p>
-    </div>
+    <div id="meta" class="meta"></div>
+
+    <label>Jawaban Anda</label>
+    <textarea id="jawaban" placeholder="Tulis jawaban kamu di sini..."></textarea>
+
+    <button onclick="kirim()">Kirim Jawaban</button>
 
   </div>
-
 </div>
 
 <script>
-function goTo(page){
-  window.location.href = page;
+const URL = "https://script.google.com/macros/s/AKfycbw68aPZL-ZfP_poqXvuGSHYpoWWLKEE8wm0p-uv8q8uXcVSQ3EzE3WMwrPDKa9lYDHh/exec";
+const id = "<?= $id ?>";
+
+let data = null;
+
+// LOAD DATA
+fetch(URL + "?type=tugas")
+.then(r => r.json())
+.then(res => {
+
+  data = res.find(d => d.id == id);
+
+  if(!data){
+    document.getElementById("soal").innerHTML = "Soal tidak ditemukan";
+    return;
+  }
+
+  // SOAL
+  document.getElementById("soal").innerHTML = data.question;
+
+  // META
+  document.getElementById("meta").innerHTML = `
+    Tanggal: <b>${data.date || '-'}</b>
+  `;
+
+  // JAWABAN LAMA (jika ada)
+  if(data.answer){
+    document.getElementById("jawaban").value = data.answer;
+  }
+});
+
+// KIRIM
+function kirim(){
+  const answer = document.getElementById("jawaban").value.trim();
+
+  if(!answer){
+    alert("Jawaban tidak boleh kosong!");
+    return;
+  }
+
+  fetch(URL,{
+    method:"POST",
+    headers:{ "Content-Type":"text/plain;charset=utf-8" },
+    body: JSON.stringify({
+      type:"tugas",
+      action:"answer_tugas",
+      id:id,
+      answer:answer
+    })
+  })
+  .then(res => res.text())
+  .then(() => {
+    alert("Jawaban berhasil dikirim!");
+    window.location.href = "jawab_soal.php";
+  });
 }
 </script>
 
