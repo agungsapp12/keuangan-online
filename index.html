@@ -3,172 +3,152 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Keuangan Online</title>
-
-<!-- ICON -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-
-<!-- FONT -->
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<title>Dashboard</title>
 
 <style>
-* { box-sizing: border-box; }
+/* RESET */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
 
+/* FIX LAYOUT */
 html, body {
-  margin: 0;
-  height: 100%;
-  font-family: 'Inter', sans-serif;
-  color: #1f2937;
+  margin:0;
+  padding:0;
+  overflow-x:hidden;
 }
 
-/* ================= VIDEO BACKGROUND ================= */
-.video-bg {
-  position: fixed;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  z-index: -2;
+/* BODY */
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(135deg,#667eea,#764ba2);
+  color:white;
 }
 
-.overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.55);
-  z-index: -1;
-}
-
-/* ================= HEADER ================= */
-header {
-  background: rgba(37, 99, 235, 0.85);
-  backdrop-filter: blur(6px);
-  color: #fff;
-  padding: 18px;
-  text-align: center;
-}
-
-header h1 {
-  margin: 0;
-  font-size: 20px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 8px;
-}
-
-header p {
-  margin-top: 6px;
-  font-size: 12px;
-  opacity: .9;
-}
-
-/* ================= CONTAINER ================= */
+/* CONTAINER */
 .container {
-  max-width: 900px;
-  margin: 30px auto;
-  padding: 0 14px;
+  width:100%;
+  max-width:1100px;
+  margin:auto;
+  padding:20px;
 }
 
-/* ================= MENU GRID ================= */
-.menu-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 14px;
+/* HEADER */
+.header {
+  text-align:center;
+  margin-bottom:25px;
 }
 
-.menu-card {
-  background: rgba(255,255,255,0.92);
-  backdrop-filter: blur(10px);
-  border-radius: 14px;
-  padding: 16px 10px;
-  text-align: center;
-  text-decoration: none;
-  color: #1f2937;
-  box-shadow: 0 6px 14px rgba(0,0,0,.15);
-  transition: .2s;
+.header h1 {
+  font-size:26px;
 }
 
-.menu-card i {
-  font-size: 26px;
-  margin-bottom: 6px;
-  color: #2563eb;
+.header p {
+  font-size:14px;
+  opacity:0.9;
 }
 
-.menu-card h3 {
-  margin: 0;
-  font-size: 13px;
-  font-weight: 600;
+/* GRID */
+.grid {
+  display:grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px,1fr));
+  gap:16px;
 }
 
-.menu-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 10px 20px rgba(0,0,0,.25);
+/* CARD */
+.card {
+  width:100%;
+  background:white;
+  color:#333;
+  padding:20px;
+  border-radius:16px;
+  cursor:pointer;
+  text-align:center;
+  box-shadow:0 8px 20px rgba(0,0,0,0.15);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-/* ================= RESPONSIVE ================= */
-@media (max-width: 900px) {
-  .menu-grid { grid-template-columns: repeat(3, 1fr); }
+.card:hover {
+  transform: translateY(-4px);
 }
 
-@media (max-width: 600px) {
-  .menu-grid { grid-template-columns: repeat(4, 1fr); }
+/* ICON */
+.icon {
+  font-size:38px;
+  margin-bottom:10px;
 }
 
-@media (max-width: 420px) {
-  .menu-grid { grid-template-columns: repeat(3, 1fr); }
+/* TEXT */
+.card h2 {
+  font-size:18px;
+  margin-bottom:5px;
+}
+
+.card p {
+  font-size:13px;
+  color:#666;
+}
+
+/* MOBILE */
+@media (max-width:480px){
+  .container {
+    padding:15px;
+  }
+
+  .card {
+    padding:18px;
+  }
+
+  .header h1 {
+    font-size:22px;
+  }
 }
 </style>
 </head>
 
 <body>
 
-<!-- VIDEO BACKGROUND -->
-<video class="video-bg" autoplay muted loop playsinline>
-  <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
-</video>
-
-<div class="overlay"></div>
-
-<header>
-  <h1><i class="fa-solid fa-wallet"></i> Keuangan Online</h1>
-  <p>Pilih menu untuk melanjutkan</p>
-</header>
-
 <div class="container">
-  <div class="menu-grid">
 
-    <!-- INPUT PENGELUARAN -->
-    <a href="home.html" class="menu-card">
-      <i class="fa-solid fa-minus-circle"></i>
-      <h3>Pengeluaran</h3>
-    </a>
+  <div class="header">
+    <h1>📚 Dashboard</h1>
+    <p>Pilih menu sistem pembelajaran</p>
+  </div>
 
-    <!-- INPUT PEMASUKAN (BARU) -->
-    <a href="pemasukan.html" class="menu-card">
-      <i class="fa-solid fa-money-bill-wave"></i>
-      <h3>Pemasukan</h3>
-    </a>
+  <div class="grid">
 
-    <!-- DASHBOARD -->
-    <a href="dashboard.html" class="menu-card">
-      <i class="fa-solid fa-chart-line"></i>
-      <h3>Dashboard</h3>
-    </a>
+    <!-- BUAT SOAL -->
+    <div class="card" onclick="goTo('buat_soal.php')">
+      <div class="icon">✏️</div>
+      <h2>Buat Soal</h2>
+      <p>Guru membuat soal essay</p>
+    </div>
 
-    <!-- EDIT -->
-    <a href="edit.html" class="menu-card">
-      <i class="fa-solid fa-pen-to-square"></i>
-      <h3>Edit</h3>
-    </a>
+    <!-- JAWAB SOAL -->
+    <div class="card" onclick="goTo('jawab_soal.php')">
+      <div class="icon">📝</div>
+      <h2>Jawab Soal</h2>
+      <p>Siswa mengerjakan soal</p>
+    </div>
 
-    <!-- MENABUNG -->
-    <a href="menabung.html" class="menu-card">
-      <i class="fa-solid fa-piggy-bank"></i>
-      <h3>Menabung</h3>
-    </a>
+    <!-- VOCAB -->
+    <div class="card" onclick="goTo('vocab.php')">
+      <div class="icon">📖</div>
+      <h2>Vocabulary</h2>
+      <p>Kelola kosakata bahasa Inggris</p>
+    </div>
 
   </div>
+
 </div>
+
+<script>
+function goTo(page){
+  window.location.href = page;
+}
+</script>
 
 </body>
 </html>
